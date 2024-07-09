@@ -1,0 +1,74 @@
+ /* Customize the label (the container) */
+.mood_button_box {
+  position: relative;
+  padding-left: 35px;
+  margin-bottom: 12px;
+  cursor: pointer;
+  font-size: 22px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+/* Hide the browser's default radio button */
+.mood_button_box input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+  margin: 50px;
+  padding: 50px;
+}
+
+/* Create a custom radio button */
+.mood_button {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 50px;
+  width: 50px;
+  border-radius: 50%;
+}
+
+.mood_button.awesome {
+  background-image: url("public/awesome.svg"); 
+}
+
+.mood_button.good {
+  background-image: url("public/good.svg"); 
+}
+
+.mood_button.okay {
+  background-image: url("public/okay.svg"); 
+}
+
+.mood_button.bad {
+  background-image: url("public/bad.svg"); 
+}
+
+.mood_button.awful {
+  background-image: url("public/awful.svg"); 
+}
+
+.mood_button_box input:checked ~ .mood_button.awesome {
+  background-image: url("public/awesome_filled.svg"); 
+}
+
+.mood_button_box input:checked ~ .mood_button.good {
+  background-image: url("public/good_filled.svg"); 
+}
+
+.mood_button_box input:checked ~ .mood_button.okay {
+  background-image: url("public/okay_filled.svg"); 
+}
+
+.mood_button_box input:checked ~ .mood_button.bad {
+  background-image: url("public/bad_filled.svg"); 
+}
+
+.mood_button_box input:checked ~ .mood_button.awful {
+  background-image: url("public/awful_filled.svg"); 
+}
+
