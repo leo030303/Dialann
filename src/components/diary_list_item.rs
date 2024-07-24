@@ -51,8 +51,8 @@ fn DiaryListItemHtml(diary_list_item: DiaryListItem) -> impl IntoView {
                 <header style="text-align:left;">
                     <h5>{diary_list_item.date_string()}</h5>
                     <span style={format!("float:right;color:{}", diary_list_item.mood.colour_code())}>
-                        <img src={diary_list_item.mood.icon_url()} style="width: 30px; height: 30px"/>
-                        <div class="fs-4 d-inline">{diary_list_item.mood.name()}</div>
+                        <img src={diary_list_item.mood.icon_url()} style="width: 30px; height: 30px" class="align-middle"/>
+                        <div class="fs-4 d-inline align-middle">{diary_list_item.mood.name()}</div>
                     </span>
                 </header>
                 <div class="card-body">

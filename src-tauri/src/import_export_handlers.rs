@@ -1,4 +1,5 @@
 use crate::db::EntryDao;
+use crate::Entry;
 use chrono::Local;
 use tauri::Manager;
 use tauri_plugin_dialog::DialogExt;
@@ -32,7 +33,11 @@ pub fn import_from_csv(app: tauri::AppHandle) {
                 if let Ok(mut rdr) = csv::Reader::from_path(file_path.path) {
                     for row in rdr.deserialize() {
                         if let Ok(entry) = row {
-                            app.state::<EntryDao>().insert_entry(entry);
+                            let mut entry: Entry = entry;
+                            entry.eid = None;
+                            app.state::<EntryDao>().insert_entry_no_id(entry);
+                        } else {
+                            println!("{:?}", row);
                         };
                     }
                 };

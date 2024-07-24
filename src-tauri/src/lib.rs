@@ -1,10 +1,15 @@
 use db::{Entry, EntryDao};
-use handle_dates::convert_text_to_timestamp;
+use handle_dates::{convert_text_to_timestamp, convert_timestamp_to_text};
 use tauri::Manager;
 
 mod db;
 pub mod handle_dates;
 pub mod import_export_handlers;
+
+#[tauri::command(rename_all = "snake_case")]
+fn convert_timestamp_to_date(timestamp: i64) -> String {
+    convert_timestamp_to_text(timestamp)
+}
 
 #[tauri::command(rename_all = "snake_case")]
 fn convert_date_to_timestamp(date_string: String) -> i64 {
@@ -84,7 +89,8 @@ pub fn run() {
             search_descending,
             export_to_csv,
             import_from_csv,
-            convert_date_to_timestamp
+            convert_date_to_timestamp,
+            convert_timestamp_to_date
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");

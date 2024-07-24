@@ -5,7 +5,7 @@ use serde::{Deserialize, Serialize};
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct Entry {
-    eid: Option<i64>,
+    pub eid: Option<i64>,
     date_created: i64,
     content: String,
     mood: i8,
@@ -86,6 +86,17 @@ impl EntryDao {
             "INSERT OR REPLACE INTO entries (eid, date_created, content, mood) VALUES (?1, ?2, ?3, ?4)",
             (&entry.eid, &entry.date_created, &entry.content, &entry.mood),
         ).expect("Error inserting entry");
+    }
+
+    pub fn insert_entry_no_id(&self, entry: Entry) {
+        self.conn
+            .lock()
+            .unwrap()
+            .execute(
+                "INSERT INTO entries (date_created, content, mood) VALUES (?1, ?2, ?3)",
+                (&entry.date_created, &entry.content, &entry.mood),
+            )
+            .expect("Error inserting entry");
     }
 
     pub fn load_by_month_and_year(
