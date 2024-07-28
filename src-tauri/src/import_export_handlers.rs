@@ -8,6 +8,7 @@ pub fn export_to_csv(app: tauri::AppHandle) {
     let list_of_entries = app.state::<EntryDao>().get_all();
     let current_date = Local::now().date_naive();
     let initial_file_name = format!("{}_diary_entries.csv", current_date.format("%d-%m-%Y"));
+    println!("You pressed the export button");
     // app.dialog()
     //     .file()
     //     .set_file_name(initial_file_name)
@@ -25,22 +26,20 @@ pub fn export_to_csv(app: tauri::AppHandle) {
 }
 
 pub fn import_from_csv(app: tauri::AppHandle) {
-    app.dialog()
-        .file()
-        .add_filter("My Filter", &["csv"])
-        .pick_file(move |file_path| {
-            if let Some(file_path) = file_path {
-                if let Ok(mut rdr) = csv::Reader::from_path(file_path.path) {
-                    for row in rdr.deserialize() {
-                        if let Ok(entry) = row {
-                            let mut entry: Entry = entry;
-                            entry.eid = None;
-                            app.state::<EntryDao>().insert_entry_no_id(entry);
-                        } else {
-                            println!("{:?}", row);
-                        };
-                    }
-                };
+    app.dialog().file().pick_file(move |file_path| {
+        if let Some(file_path) = file_path {
+            println!("This is the path: {0}", file_path.path.display());
+            if let Ok(mut rdr) = csv::Reader::from_path(file_path.path) {
+                for row in rdr.deserialize() {
+                    if let Ok(entry) = row {
+                        let mut entry: Entry = entry;
+                        entry.eid = None;
+                        app.state::<EntryDao>().insert_entry_no_id(entry);
+                    } else {
+                        println!("{:?}", row);
+                    };
+                }
             };
-        });
+        };
+    });
 }
